@@ -1,14 +1,24 @@
 FROM php:8.2-fpm
 
-# Install system dependencies
+# System deps
 RUN apt-get update && apt-get install -y \
-    zip unzip git curl libpng-dev libonig-dev libxml2-dev
+    git curl zip unzip libpng-dev libonig-dev libxml2-dev
 
-# Install PHP extensions required by Laravel
+# PHP extensions
 RUN docker-php-ext-install pdo pdo_mysql mbstring exif pcntl bcmath gd
 
-# Install Composer
+# Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# Set working directory
 WORKDIR /var/www
+
+# 🔥 ندخلو الكود داخل image
+COPY . /var/www
+
+# 🔥 install production deps فقط
+RUN composer install --no-dev --optimize-autoloader
+
+# Permissions
+RUN chown -R www-data:www-data \
+    /var/www/storage \
+    /var/www/bootstrap/cache
