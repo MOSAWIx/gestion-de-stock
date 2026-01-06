@@ -210,8 +210,7 @@
             transform: rotate(-90deg);
         }
     </style>
-    <link rel="stylesheet" href="{{ asset('build/assets/app-nQDe1vdX.css') }}">
-    <script type="module" src="{{ asset('build/assets/app-CJy8ASEk.js') }}"></script>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 
 </head>
 
